@@ -70,7 +70,6 @@ const TopSellers = () => {
         </div>
       </div>
     </section>
-
   );
 };
 
