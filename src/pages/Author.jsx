@@ -6,18 +6,23 @@ import axios from "axios";
 
 const Author = () => {
 
-  const { nftId } = useParams();
+  const { id } = useParams();
   const [author, setAuthor] = useState(null);
   
 
   useEffect(() => {
     const fetchAuthor = async () => {
-      const { data } = await axios.get(`https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?id=${nftId}`)
+      const { data } = await axios.get(
+        `https://us-central1-nft-cloud-functions.cloudfunctions.net/authors?id=${id}`
+      );
       setAuthor(data);
-    }
-    if (nftId) fetchAuthor();
-  },[nftId]) 
+      }
 
+    fetchAuthor();
+  }, [id]);
+
+
+  if (!author) return <p>No author found.</p>;
 
   return (
     <div id="wrapper">
@@ -39,15 +44,15 @@ const Author = () => {
                 <div className="d_profile de-flex">
                   <div className="de-flex-col">
                     <div className="profile_avatar">
-                      <img src={author.image} alt="" />
+                      <img src={author.authorImage} alt="" />
 
                       <i className="fa fa-check"></i>
                       <div className="profile_name">
                         <h4>
-                          {author.name}
-                          <span className="profile_username">@{author.username}</span>
+                          {author.authorName}
+                          <span className="profile_username">@{author.tag}</span>
                           <span id="wallet" className="profile_wallet">
-                            {author.wallet}
+                            {author.address}
                           </span>
                           <button id="btn_copy" title="Copy Text">
                             Copy
@@ -69,7 +74,7 @@ const Author = () => {
 
               <div className="col-md-12">
                 <div className="de_tab tab_simple">
-                  <AuthorItems />
+                  <AuthorItems items={author.nftCollection}/>
                 </div>
               </div>
             </div>
