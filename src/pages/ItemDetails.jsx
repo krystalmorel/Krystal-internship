@@ -24,64 +24,68 @@ const ItemDetails = () => {
   }, []);
 
   if (loading) {
-    return (
-      <div id="wrapper">
-        <div id="content" className="no-bottom no-top">
-          <section aria-label="section" className="mt90 sm-mt-0">
-            <div className="container">
-              <div className="row">
-                {/* Left side */}
-                <div className="col-md-6 text-center">
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "400px",
-                      background: "#ccc",
-                      borderRadius: "10px",
-                    }}
-                  ></div>
+  return (
+    <div id="wrapper">
+      <div id="content" className="no-bottom no-top">
+        <section aria-label="section" className="mt90 sm-mt-0">
+          <div className="container">
+            <div className="row">
+              {/* Left: NFT Image Skeleton */}
+              <div className="col-md-6 text-center">
+                <div
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: "12px",
+                  }}
+                ></div>
+              </div>
+
+              {/* Right: Details Skeleton */}
+              <div className="col-md-6">
+                {/* Title */}
+                <div
+                  style={{
+                    width: "60%",
+                    height: "30px",
+                    backgroundColor: "#e0e0e0",
+                    marginBottom: "15px",
+                    borderRadius: "5px",
+                  }}
+                ></div>
+
+                {/* Views & Likes */}
+                <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                  <div style={{ width: "50px", height: "20px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
+                  <div style={{ width: "50px", height: "20px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
                 </div>
-                {/* Right side */}
-                <div className="col-md-6">
-                  <div
-                    style={{
-                      width: "60%",
-                      height: "24px",
-                      background: "#ccc",
-                      marginBottom: "20px",
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      width: "40%",
-                      height: "16px",
-                      background: "#eee",
-                      marginBottom: "10px",
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      width: "80%",
-                      height: "16px",
-                      background: "#eee",
-                      marginBottom: "10px",
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      width: "50%",
-                      height: "20px",
-                      background: "#ddd",
-                    }}
-                  ></div>
+
+                {/* Description */}
+                <div style={{ width: "100%", height: "80px", backgroundColor: "#eee", marginBottom: "20px", borderRadius: "5px" }}></div>
+
+                {/* Owner & Creator */}
+                <div style={{ marginBottom: "20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#ddd" }}></div>
+                    <div style={{ width: "120px", height: "20px", backgroundColor: "#eee", borderRadius: "5px" }}></div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#ddd" }}></div>
+                    <div style={{ width: "120px", height: "20px", backgroundColor: "#eee", borderRadius: "5px" }}></div>
+                  </div>
                 </div>
+
+                {/* Price */}
+                <div style={{ width: "80px", height: "30px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
               </div>
             </div>
-          </section>
-        </div>
+          </div>
+        </section>
       </div>
-    );
-  }
+    </div>
+  );
+}
 
   if (!details) {
     return (
@@ -144,13 +148,13 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to={`/author/${details?.ownerId}`}>
-                            <img className="lazy" src={details?.ownerImage} alt="" />
+                          <Link to={`/author/${details?.creatorId}`}>
+                            <img className="lazy" src={details?.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to={`/author/${details?.ownerId}`}>{details?.ownerName}</Link>
+                          <Link to={`/author/${details?.creatorId}`}>{details?.creatorName}</Link>
                         </div>
                       </div>
                     </div>
