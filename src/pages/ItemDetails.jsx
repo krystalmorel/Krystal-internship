@@ -1,29 +1,99 @@
 import React, { useEffect, useState } from "react";
 import EthImage from "../images/ethereum.svg";
 import { Link, useParams } from "react-router-dom";
-import AuthorImage from "../images/author_thumbnail.jpg";
-import nftImage from "../images/nftImage.jpg";
 import axios from "axios";
 
 const ItemDetails = () => {
 
-  const {nftId} = useParams();
+  const { id } = useParams();
   const [details, setDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchDetails = async () => {
-      const { data } = await axios.get( `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${nftId}`)
+      const { data } = await axios.get( `https://us-central1-nft-cloud-functions.cloudfunctions.net/itemDetails?nftId=${id}`);
       setDetails(data);
+      setLoading(false);
     };
     fetchDetails();
-  })
-
-
+  },[id]);
 
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  if (loading) {
+  return (
+    <div id="wrapper">
+      <div id="content" className="no-bottom no-top">
+        <section aria-label="section" className="mt90 sm-mt-0">
+          <div className="container">
+            <div className="row">
+              {/* Left: NFT Image Skeleton */}
+              <div className="col-md-6 text-center">
+                <div
+                  style={{
+                    width: "100%",
+                    height: "400px",
+                    backgroundColor: "#e0e0e0",
+                    borderRadius: "12px",
+                  }}
+                ></div>
+              </div>
+
+              {/* Right: Details Skeleton */}
+              <div className="col-md-6">
+                {/* Title */}
+                <div
+                  style={{
+                    width: "60%",
+                    height: "30px",
+                    backgroundColor: "#e0e0e0",
+                    marginBottom: "15px",
+                    borderRadius: "5px",
+                  }}
+                ></div>
+
+                {/* Views & Likes */}
+                <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                  <div style={{ width: "50px", height: "20px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
+                  <div style={{ width: "50px", height: "20px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
+                </div>
+
+                {/* Description */}
+                <div style={{ width: "100%", height: "80px", backgroundColor: "#eee", marginBottom: "20px", borderRadius: "5px" }}></div>
+
+                {/* Owner & Creator */}
+                <div style={{ marginBottom: "20px" }}>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px", marginBottom: "10px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#ddd" }}></div>
+                    <div style={{ width: "120px", height: "20px", backgroundColor: "#eee", borderRadius: "5px" }}></div>
+                  </div>
+                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+                    <div style={{ width: "40px", height: "40px", borderRadius: "50%", backgroundColor: "#ddd" }}></div>
+                    <div style={{ width: "120px", height: "20px", backgroundColor: "#eee", borderRadius: "5px" }}></div>
+                  </div>
+                </div>
+
+                {/* Price */}
+                <div style={{ width: "80px", height: "30px", backgroundColor: "#ddd", borderRadius: "5px" }}></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  );
+}
+
+  if (!details) {
+    return (
+      <p style={{ padding: "100px", textAlign: "center" }}>
+        No details found.
+      </p>
+    );
+  }
 
   return (
     <div id="wrapper">
@@ -34,42 +104,40 @@ const ItemDetails = () => {
             <div className="row">
               <div className="col-md-6 text-center">
                 <img
-                  src={nftImage}
+                  src={details?.nftImage}
                   className="img-fluid img-rounded mb-sm-30 nft-image"
                   alt=""
                 />
               </div>
               <div className="col-md-6">
                 <div className="item_info">
-                  <h2>Rainbow Style #194</h2>
+                  <h2>{details?.title} #{details?.tag}</h2>
 
                   <div className="item_info_counts">
                     <div className="item_info_views">
                       <i className="fa fa-eye"></i>
-                      100
+                      {details?.views}
                     </div>
                     <div className="item_info_like">
                       <i className="fa fa-heart"></i>
-                      74
+                      {details?.likes}
                     </div>
                   </div>
                   <p>
-                    doloremque laudantium, totam rem aperiam, eaque ipsa quae ab
-                    illo inventore veritatis et quasi architecto beatae vitae
-                    dicta sunt explicabo.
+                    {details?.description}
                   </p>
                   <div className="d-flex flex-row">
                     <div className="mr40">
                       <h6>Owner</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${details?.ownerId}`}>
+                            <img className="lazy" src={details?.ownerImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${details?.ownerId}`}>{details?.ownerName}</Link>
                         </div>
                       </div>
                     </div>
@@ -80,13 +148,13 @@ const ItemDetails = () => {
                       <h6>Creator</h6>
                       <div className="item_author">
                         <div className="author_list_pp">
-                          <Link to="/author">
-                            <img className="lazy" src={AuthorImage} alt="" />
+                          <Link to={`/author/${details?.creatorId}`}>
+                            <img className="lazy" src={details?.creatorImage} alt="" />
                             <i className="fa fa-check"></i>
                           </Link>
                         </div>
                         <div className="author_list_info">
-                          <Link to="/author">Monica Lucas</Link>
+                          <Link to={`/author/${details?.creatorId}`}>{details?.creatorName}</Link>
                         </div>
                       </div>
                     </div>
@@ -94,7 +162,7 @@ const ItemDetails = () => {
                     <h6>Price</h6>
                     <div className="nft-item-price">
                       <img src={EthImage} alt="" />
-                      <span>1.85</span>
+                      <span>{details?.price}</span>
                     </div>
                   </div>
                 </div>
