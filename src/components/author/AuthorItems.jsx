@@ -1,22 +1,64 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-const AuthorItems = ({ items }) => {
-  if (!items.leagth) {
-    return <div>No items found</div>
+const AuthorItems = ({ items, authorImage, loading }) => {
+
+  if (loading) {
+    return (
+      <div className="de_tab_content">
+        <div className="tab-1">
+          <div className="row">
+            {Array(8).fill(null).map((_, index) => (
+              <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={index}>
+                <div className="nft__item skeleton-card"></div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Internal Styles */}
+        <style>
+          {`
+            .skeleton-card {
+              background: linear-gradient(
+                90deg,
+                #f0f0f0 25%,
+                #e0e0e0 50%,
+                #f0f0f0 75%
+              );
+              background-size: 200% 100%;
+              animation: shimmer 1.5s infinite;
+              min-height: 300px;
+              border-radius: 8px;
+              margin-bottom: 20px;
+            }
+
+            @keyframes shimmer {
+              0% {
+                background-position: -200% 0;
+              }
+              100% {
+                background-position: 200% 0;
+              }
+            }
+          `}
+        </style>
+      </div>
+    );
   }
+
 
 
   return (
     <div className="de_tab_content">
       <div className="tab-1">
         <div className="row">
-          {items.map((items) => (
-            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={items.id}>
+          { items.map((item) => (
+            <div className="col-lg-3 col-md-6 col-sm-6 col-xs-12" key={item.id}>
               <div className="nft__item">
                 <div className="author_list_pp">
-                  <Link to={`/author/${items.authorId}`}>
-                    <img className="lazy" src={items.authorImage} alt="" />
+                  <Link to={`/author/${item.authorId}`}>
+                    <img className="lazy" src={authorImage} alt="" />
                     <i className="fa fa-check"></i>
                   </Link>
                 </div>
@@ -38,22 +80,22 @@ const AuthorItems = ({ items }) => {
                       </div>
                     </div>
                   </div>
-                  <Link to={`/item-details/${items.nftid}`}>
+                  <Link to={`/item-details/${item.nftId}`}>
                     <img
-                      src={items.nftImage}
+                      src={item.nftImage}
                       className="lazy nft__item_preview"
                       alt=""
                     />
                   </Link>
                 </div>
                 <div className="nft__item_info">
-                  <Link to="/item-details">
-                    <h4>{items.title}</h4>
+                  <Link to={`/item-details/${item.nftId}`}>
+                    <h4>{item.title}</h4>
                   </Link>
-                  <div className="nft__item_price">{items.price} ETH</div>
+                  <div className="nft__item_price">{item.price} ETH</div>
                   <div className="nft__item_like">
                     <i className="fa fa-heart"></i>
-                    <span>{items.likes}</span>
+                    <span>{item.likes}</span>
                   </div>
                 </div>
               </div>
