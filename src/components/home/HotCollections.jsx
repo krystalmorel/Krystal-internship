@@ -3,8 +3,19 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 const HotCollections = () => {
+
+  useEffect(() => {
+      AOS.init({
+        duration: 2000, 
+        once: true, 
+      });
+    }, []);
+
+
   const [collections, setCollections] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -51,7 +62,7 @@ const HotCollections = () => {
 
   return (
     <section id="section-collections" className="no-bottom">
-      <div className="container">
+      <div data-aos="fade-up" className="container">
         <div className="row">
           <div className="col-lg-12 text-center">
             <h2>Hot Collections</h2>

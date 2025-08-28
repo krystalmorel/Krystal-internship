@@ -1,8 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 const ExploreItems = () => {
+
+    useEffect(() => {
+        AOS.init({
+          duration: 2000, 
+          once: true, 
+        });
+      }, []);
+
+
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [time, setTime] = useState({});
@@ -93,6 +104,7 @@ const ExploreItems = () => {
           ))
         : items.slice(0, count).map((item) => (
             <div
+              data-aos="fade-in"
               key={item.id}
               className="d-item col-lg-3 col-md-6 col-sm-6 col-xs-12"
               style={{ display: "block", backgroundSize: "cover" }}
