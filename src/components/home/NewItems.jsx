@@ -3,8 +3,19 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
+import AOS from "aos";
+import 'aos/dist/aos.css';
 
 const NewItems = () => {
+
+  useEffect(() => {
+      AOS.init({
+        duration: 2000, 
+        once: true, 
+      });
+    }, []);
+
+
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [time, setTime] = useState({});
@@ -82,7 +93,7 @@ const NewItems = () => {
 
   return (
     <section id="section-items" className="no-bottom">
-      <div className="container">
+      <div data-aos="fade-up" className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
