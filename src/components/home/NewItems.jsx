@@ -3,19 +3,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import "keen-slider/keen-slider.min.css";
 import { useKeenSlider } from "keen-slider/react";
-import AOS from "aos";
-import 'aos/dist/aos.css';
 
 const NewItems = () => {
-
-  useEffect(() => {
-      AOS.init({
-        duration: 2000, 
-        once: true, 
-      });
-    }, []);
-
-
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [time, setTime] = useState({});
@@ -31,20 +20,20 @@ const NewItems = () => {
     fetchItems();
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
     if (!loading) {
       const timer = setInterval(() => {
         const now = Date.now();
         const updatedTimes = {};
         items.forEach((item) => {
-          const diff = item.expiryDate - now; 
+          const diff = item.expiryDate - now;
           if (diff > 0) {
             const hours = Math.floor(diff / (1000 * 60 * 60));
             const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((diff % (1000 * 60)) / 1000);
             updatedTimes[item.id] = `${hours}h ${minutes}m ${seconds}s`;
-          }else {
-            return (null)
+          } else {
+            return null;
           }
         });
         setTime(updatedTimes);
@@ -53,7 +42,6 @@ const NewItems = () => {
       return () => clearInterval(timer);
     }
   }, [loading, items]);
-
 
   const [sliderRef, slider] = useKeenSlider({
     loop: true,
@@ -84,16 +72,16 @@ const NewItems = () => {
   };
 
   useEffect(() => {
-  if (!loading) {
-    slider.current?.update();
-  }
-}, [loading, slider]);
+    if (!loading) {
+      slider.current?.update();
+    }
+  }, [loading, slider]);
 
   const skeletons = Array(4).fill(null);
 
   return (
     <section id="section-items" className="no-bottom">
-      <div data-aos="fade-up" className="container">
+      <div className="container">
         <div className="row">
           <div className="col-lg-12">
             <div className="text-center">
@@ -105,10 +93,7 @@ const NewItems = () => {
             <div ref={sliderRef} className="keen-slider">
               {loading
                 ? skeletons.map((_, index) => (
-                    <div
-                      className="keen-slider__slide"
-                      key={index}
-                    >
+                    <div className="keen-slider__slide" key={index}>
                       <div className="nft__item">
                         <div className="author_list_pp">
                           <div
@@ -139,10 +124,7 @@ const NewItems = () => {
                     </div>
                   ))
                 : items.map((item) => (
-                    <div
-                      className="keen-slider__slide"
-                      key={item.id}
-                    >
+                    <div className="keen-slider__slide" key={item.id}>
                       <div className="nft__item">
                         <div className="author_list_pp">
                           <Link
@@ -160,7 +142,8 @@ const NewItems = () => {
                           </Link>
                         </div>
                         {item.expiryDate && (
-                        <div className="de_countdown">{time[item.id]}</div>)}
+                          <div className="de_countdown">{time[item.id]}</div>
+                        )}
 
                         <div className="nft__item_wrap">
                           <div className="nft__item_extra">
@@ -205,44 +188,45 @@ const NewItems = () => {
                     </div>
                   ))}
             </div>
-          </div>
-          {!loading && (
-            <>
-              <button
-                aria-label="Previous slide"
-                onClick={handlePrev}
-                className="btn btn-light rounded-circle shadow position-absolute d-flex align-items-center justify-content-center"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  left: "80px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  fontSize: "20px",
-                  zIndex: 10,
-                }}
-              >
-                &#8249;
-              </button>
 
-              <button
-                aria-label="Next slide"
-                onClick={handleNext}
-                className="btn btn-light rounded-circle shadow position-absolute d-flex align-items-center justify-content-center"
-                style={{
-                  width: "40px",
-                  height: "40px",
-                  right: "80px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                  fontSize: "20px",
-                  zIndex: 10,
-                }}
-              >
-                &#8250;
-              </button>
-            </>
-          )}
+            {!loading && (
+              <>
+                <button
+                  aria-label="Previous slide"
+                  onClick={handlePrev}
+                  className="btn btn-light rounded-circle shadow position-absolute d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    left: "-20px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    fontSize: "20px",
+                    zIndex: 10,
+                  }}
+                >
+                  &#8249;
+                </button>
+
+                <button
+                  aria-label="Next slide"
+                  onClick={handleNext}
+                  className="btn btn-light rounded-circle shadow position-absolute d-flex align-items-center justify-content-center"
+                  style={{
+                    width: "40px",
+                    height: "40px",
+                    right: "-20px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    fontSize: "20px",
+                    zIndex: 10,
+                  }}
+                >
+                  &#8250;
+                </button>
+              </>
+            )}
+          </div>
         </div>
       </div>
     </section>

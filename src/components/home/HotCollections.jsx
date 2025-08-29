@@ -149,7 +149,7 @@ const HotCollections = () => {
                 style={{
                   width: "40px",
                   height: "40px",
-                  left: "-12px",
+                  left: "-20px",
                   top: "50%",
                   transform: "translateY(-50%)",
                   fontSize: "20px",
@@ -166,7 +166,7 @@ const HotCollections = () => {
                 style={{
                   width: "40px",
                   height: "40px",
-                  right: "-12px",
+                  right: "-20px",
                   top: "50%",
                   transform: "translateY(-50%)",
                   fontSize: "20px",
