@@ -58,6 +58,12 @@ const HotCollections = () => {
     slider.current?.next();
   };
 
+  useEffect(() => {
+    if (!loading) {
+      slider.current?.update();
+    }
+  }, [loading, slider]);
+
   const skeletons = Array(4).fill(null);
 
   return (
@@ -143,7 +149,7 @@ const HotCollections = () => {
                 style={{
                   width: "40px",
                   height: "40px",
-                  left: "-20px",
+                  left: "-12px",
                   top: "50%",
                   transform: "translateY(-50%)",
                   fontSize: "20px",
@@ -160,7 +166,7 @@ const HotCollections = () => {
                 style={{
                   width: "40px",
                   height: "40px",
-                  right: "-20px",
+                  right: "-12px",
                   top: "50%",
                   transform: "translateY(-50%)",
                   fontSize: "20px",

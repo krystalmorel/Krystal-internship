@@ -92,7 +92,7 @@ const ExploreItems = () => {
             <div
               key={index}
               style={{
-                width: "220px",
+                width: "300px",
                 height: "350px",
                 margin: "10px",
                 borderRadius: "8px",
